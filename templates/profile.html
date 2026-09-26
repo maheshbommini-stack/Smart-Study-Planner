@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Profile</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<nav>
+
+    <h2>📚 Smart Study Planner</h2>
+
+    <div>
+        <a href="{{ url_for('dashboard') }}">Dashboard</a>
+        <a href="{{ url_for('subjects') }}">Subjects</a>
+        <a href="{{ url_for('tasks') }}">Tasks</a>
+        <a href="{{ url_for('timetable') }}">Timetable</a>
+        <a href="{{ url_for('resources') }}">Resources</a>
+        <a href="{{ url_for('profile') }}">Profile</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </div>
+
+</nav>
+
+<main>
+
+<h1>👤 My Profile</h1>
+
+<div class="form-card">
+
+<form method="POST">
+
+    <label>Name</label>
+
+    <input type="text"
+           name="name"
+           value="{{ user.name }}"
+           required>
+
+    <label>Email</label>
+
+    <input type="email"
+           value="{{ user.email }}"
+           disabled>
+
+    <label>Course</label>
+
+    <input type="text"
+           name="course"
+           value="{{ user.course or '' }}">
+
+    <label>Year</label>
+
+    <input type="text"
+           name="year"
+           value="{{ user.year or '' }}">
+
+    <button type="submit">
+        Update Profile
+    </button>
+
+</form>
+
+</div>
+
+</main>
+
+</body>
+</html>
