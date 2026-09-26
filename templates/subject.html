@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Subjects</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<nav>
+
+    <h2>📚 Smart Study Planner</h2>
+
+    <div>
+        <a href="{{ url_for('dashboard') }}">Dashboard</a>
+        <a href="{{ url_for('subjects') }}">Subjects</a>
+        <a href="{{ url_for('tasks') }}">Tasks</a>
+        <a href="{{ url_for('timetable') }}">Timetable</a>
+        <a href="{{ url_for('resources') }}">Resources</a>
+        <a href="{{ url_for('profile') }}">Profile</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </div>
+
+</nav>
+
+<main>
+
+<h1>📚 Subjects</h1>
+
+<div class="form-card">
+
+<form method="POST">
+
+    <input type="text"
+           name="subject_name"
+           placeholder="Subject Name"
+           required>
+
+    <input type="text"
+           name="subject_code"
+           placeholder="Subject Code">
+
+    <select name="priority">
+
+        <option value="High">High</option>
+        <option value="Medium" selected>Medium</option>
+        <option value="Low">Low</option>
+
+    </select>
+
+    <button type="submit">Add Subject</button>
+
+</form>
+
+</div>
+
+
+<div class="card">
+
+<table>
+
+<tr>
+    <th>Subject</th>
+    <th>Code</th>
+    <th>Priority</th>
+    <th>Action</th>
+</tr>
+
+{% for subject in subjects %}
+
+<tr>
+
+<td>{{ subject.subject_name }}</td>
+
+<td>{{ subject.subject_code }}</td>
+
+<td>
+    <span class="priority {{ subject.priority|lower }}">
+        {{ subject.priority }}
+    </span>
+</td>
+
+<td>
+    <a class="delete"
+       href="{{ url_for('delete_subject', id=subject.id) }}"
+       onclick="return confirm('Delete this subject?')">
+       Delete
+    </a>
+</td>
+
+</tr>
+
+{% else %}
+
+<tr>
+<td colspan="4">No subjects added yet.</td>
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+
+</main>
+
+</body>
+</html>
