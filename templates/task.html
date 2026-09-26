@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Tasks</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<nav>
+
+    <h2>📚 Smart Study Planner</h2>
+
+    <div>
+        <a href="{{ url_for('dashboard') }}">Dashboard</a>
+        <a href="{{ url_for('subjects') }}">Subjects</a>
+        <a href="{{ url_for('tasks') }}">Tasks</a>
+        <a href="{{ url_for('timetable') }}">Timetable</a>
+        <a href="{{ url_for('resources') }}">Resources</a>
+        <a href="{{ url_for('profile') }}">Profile</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </div>
+
+</nav>
+
+<main>
+
+<h1>📝 Study Tasks</h1>
+
+<div class="form-card">
+
+<form method="POST">
+
+    <input type="text"
+           name="task_name"
+           placeholder="Task Name"
+           required>
+
+    <textarea name="description"
+              placeholder="Description"></textarea>
+
+    <select name="subject_id" required>
+
+        <option value="">Select Subject</option>
+
+        {% for subject in subjects %}
+
+        <option value="{{ subject.id }}">
+            {{ subject.subject_name }}
+        </option>
+
+        {% endfor %}
+
+    </select>
+
+    <label>Deadline</label>
+
+    <input type="date"
+           name="deadline"
+           required>
+
+    <button type="submit">
+        Add Task
+    </button>
+
+</form>
+
+</div>
+
+
+<div class="card">
+
+<table>
+
+<tr>
+
+<th>Task</th>
+<th>Subject</th>
+<th>Deadline</th>
+<th>Priority</th>
+<th>Status</th>
+<th>Action</th>
+
+</tr>
+
+{% for task in tasks %}
+
+<tr>
+
+<td>
+
+<strong>{{ task.task_name }}</strong>
+
+<br>
+
+<small>{{ task.description }}</small>
+
+</td>
+
+<td>{{ task.subject_name or 'General' }}</td>
+
+<td>{{ task.deadline }}</td>
+
+<td>
+
+<span class="priority {{ task.priority|lower }}">
+{{ task.priority }}
+</span>
+
+</td>
+
+<td>
+
+{% if task.status == "Completed" %}
+
+<span class="completed">
+Completed
+</span>
+
+{% else %}
+
+<span class="pending">
+Pending
+</span>
+
+{% endif %}
+
+</td>
+
+<td>
+
+{% if task.status == "Pending" %}
+
+<a href="{{ url_for('complete_task', id=task.id) }}">
+Complete
+</a>
+
+{% endif %}
+
+<a class="delete"
+   href="{{ url_for('delete_task', id=task.id) }}"
+   onclick="return confirm('Delete this task?')">
+Delete
+</a>
+
+</td>
+
+</tr>
+
+{% else %}
+
+<tr>
+
+<td colspan="6">
+No tasks available.
+</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+
+</main>
+
+</body>
+</html>
