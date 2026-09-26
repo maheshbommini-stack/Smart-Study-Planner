@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Dashboard</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<nav>
+
+    <h2>📚 Smart Study Planner</h2>
+
+    <div>
+        <a href="{{ url_for('dashboard') }}">Dashboard</a>
+        <a href="{{ url_for('subjects') }}">Subjects</a>
+        <a href="{{ url_for('tasks') }}">Tasks</a>
+        <a href="{{ url_for('timetable') }}">Timetable</a>
+        <a href="{{ url_for('resources') }}">Resources</a>
+        <a href="{{ url_for('profile') }}">Profile</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </div>
+
+</nav>
+
+
+<main>
+
+    <h1>Welcome, {{ session['user_name'] }} 👋</h1>
+
+    <div class="cards">
+
+        <div class="card">
+            <h3>📚 Subjects</h3>
+            <p>{{ total_subjects }}</p>
+        </div>
+
+        <div class="card">
+            <h3>📝 Total Tasks</h3>
+            <p>{{ total_tasks }}</p>
+        </div>
+
+        <div class="card">
+            <h3>✅ Completed</h3>
+            <p>{{ completed_tasks }}</p>
+        </div>
+
+        <div class="card">
+            <h3>⏳ Pending</h3>
+            <p>{{ pending_tasks }}</p>
+        </div>
+
+    </div>
+
+
+    <div class="card progress-card">
+
+        <h2>📊 Study Progress</h2>
+
+        <div class="progress">
+            <div style="width: {{ progress }}%">
+                {{ progress }}%
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>⏰ Upcoming Tasks</h2>
+
+        {% if upcoming_tasks %}
+
+            <table>
+
+                <tr>
+                    <th>Task</th>
+                    <th>Subject</th>
+                    <th>Deadline</th>
+                    <th>Priority</th>
+                </tr>
+
+                {% for task in upcoming_tasks %}
+
+                <tr>
+
+                    <td>{{ task.task_name }}</td>
+
+                    <td>{{ task.subject_name or 'General' }}</td>
+
+                    <td>{{ task.deadline }}</td>
+
+                    <td>
+                        <span class="priority {{ task.priority|lower }}">
+                            {{ task.priority }}
+                        </span>
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </table>
+
+        {% else %}
+
+            <p>No pending tasks 🎉</p>
+
+        {% endif %}
+
+    </div>
+
+</main>
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+</html>
