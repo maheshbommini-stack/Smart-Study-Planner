@@ -1,0 +1,140 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Resources</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<nav>
+
+    <h2>📚 Smart Study Planner</h2>
+
+    <div>
+        <a href="{{ url_for('dashboard') }}">Dashboard</a>
+        <a href="{{ url_for('subjects') }}">Subjects</a>
+        <a href="{{ url_for('tasks') }}">Tasks</a>
+        <a href="{{ url_for('timetable') }}">Timetable</a>
+        <a href="{{ url_for('resources') }}">Resources</a>
+        <a href="{{ url_for('profile') }}">Profile</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </div>
+
+</nav>
+
+<main>
+
+<h1>📖 Study Resources</h1>
+
+<div class="form-card">
+
+<form method="POST">
+
+    <select name="subject_id" required>
+
+        <option value="">Select Subject</option>
+
+        {% for subject in subjects %}
+
+        <option value="{{ subject.id }}">
+            {{ subject.subject_name }}
+        </option>
+
+        {% endfor %}
+
+    </select>
+
+    <input type="text"
+           name="resource_name"
+           placeholder="Resource Name"
+           required>
+
+    <input type="url"
+           name="resource_link"
+           placeholder="https://example.com">
+
+    <button type="submit">
+        Add Resource
+    </button>
+
+</form>
+
+</div>
+
+
+<div class="card">
+
+<table>
+
+<tr>
+
+<th>Resource</th>
+<th>Subject</th>
+<th>Link</th>
+<th>Action</th>
+
+</tr>
+
+{% for resource in resources %}
+
+<tr>
+
+<td>{{ resource.resource_name }}</td>
+
+<td>{{ resource.subject_name }}</td>
+
+<td>
+
+{% if resource.resource_link %}
+
+<a href="{{ resource.resource_link }}"
+   target="_blank">
+Open Resource
+</a>
+
+{% else %}
+
+No link
+
+{% endif %}
+
+</td>
+
+<td>
+
+<a class="delete"
+   href="{{ url_for('delete_resource', id=resource.id) }}"
+   onclick="return confirm('Delete this resource?')">
+Delete
+</a>
+
+</td>
+
+</tr>
+
+{% else %}
+
+<tr>
+
+<td colspan="4">
+No resources added.
+</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+
+</main>
+
+</body>
+</html>
